@@ -1,6 +1,7 @@
 package com.hirehub.ats.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,6 +25,9 @@ import java.util.List;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
+
+    @Value("#{'${cors.allowed-origins}'.split(',')}")
+    private List<String> allowedOrigins;
 
     @Autowired
     private CustomUserDetailsService userDetailsService;
@@ -52,15 +56,9 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of(
-            "http://localhost:5173", 
-            "http://localhost:5174", 
-            "http://localhost:5175",
-            "http://127.0.0.1:5173",
-            "http://127.0.0.1:5174"
-        ));
+        configuration.setAllowedOrigins(allowedOrigins);
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
+        configuration.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type", "Accept", "X-Requested-With", "Origin"));
         configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
@@ -74,6 +72,7 @@ public class SecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> 
                 auth.requestMatchers("/api/auth/**").permitAll()
+                    .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
                     .requestMatchers("/api/jobs/recruiter").hasRole("RECRUITER")
                     .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/jobs", "/api/jobs/**").permitAll()
                     .requestMatchers("/api/resumes/**").hasAnyRole("RECRUITER", "CANDIDATE")

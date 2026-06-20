@@ -114,4 +114,5 @@
 		</plugins>
 	</build>
 
+	<!-- Trigger IDE classpath reload to resolve transient caching warnings -->
 </project>
