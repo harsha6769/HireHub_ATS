@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: 'https://hirehub-ats-3dqk.onrender.com/api',
 });
 
 // Request interceptor to attach JWT token to every outgoing request
@@ -25,7 +25,7 @@ api.interceptors.response.use(
     if (error.response && (error.response.status === 401 || error.response.status === 403)) {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-      
+
       // Prevent infinite redirect loops for non-protected layouts
       const path = window.location.pathname;
       if (
