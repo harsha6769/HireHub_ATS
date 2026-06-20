@@ -1,0 +1,287 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --bg-main: #f8fafc;
+  --bg-card: rgba(255, 255, 255, 0.75);
+  --bg-glass: rgba(255, 255, 255, 0.75);
+  --border-glass: rgba(15, 23, 42, 0.06);
+  
+  --accent-pink: #ec4899;
+  --accent-purple: #8b5cf6;
+  --accent-indigo: #6366f1;
+  --accent-gold: #f59e0b;
+  
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  
+  --shadow-premium: 0 10px 30px -10px rgba(15, 23, 42, 0.05), 0 0 0 1px rgba(255, 255, 255, 0.6) inset;
+  --shadow-glow: 0 0 40px rgba(99, 102, 241, 0.06);
+  
+  --sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Optional dark-theme toggle support that maintains the premium tone */
+.light-theme {
+  /* In this case, we override variables to a clean dark-mode if user presses toggle, but default is premium light-mode */
+  --bg-main: #0f172a;
+  --bg-card: rgba(30, 41, 59, 0.7);
+  --bg-glass: rgba(30, 41, 59, 0.7);
+  --border-glass: rgba(255, 255, 255, 0.08);
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --shadow-premium: 0 20px 40px -15px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--sans);
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-main);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border: 2px solid var(--bg-main);
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.light-theme ::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-color: #0f172a;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Background floating blobs for premium SaaS look */
+.bg-blob {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  filter: blur(160px);
+  z-index: -1;
+  opacity: 0.07; /* Super soft pastel backdrop wash */
+  pointer-events: none;
+  animation: float-blob 22s infinite alternate;
+}
+
+.light-theme .bg-blob {
+  opacity: 0.22;
+}
+
+.blob-1 {
+  background: var(--accent-purple);
+  top: -150px;
+  right: -100px;
+}
+
+.blob-2 {
+  background: var(--accent-cyan);
+  bottom: -150px;
+  left: -100px;
+  animation-delay: -5s;
+}
+
+.blob-3 {
+  background: var(--accent-pink);
+  top: 35%;
+  left: 15%;
+  width: 400px;
+  height: 400px;
+  animation-delay: -10s;
+  opacity: 0.05;
+}
+
+@keyframes float-blob {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(50px, -70px) scale(1.15);
+  }
+  100% {
+    transform: translate(-30px, 40px) scale(0.9);
+  }
+}
+
+/* Global utility classes */
+.glass {
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-glass);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: var(--transition);
+  border: none;
+  text-decoration: none;
+  gap: 8px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple), var(--accent-indigo));
+  background-size: 150% auto;
+  color: #ffffff;
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.15);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.25);
+  background-position: right center;
+}
+
+.btn-secondary {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border-glass);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(15, 23, 42, 0.12);
+  transform: translateY(-2px);
+}
+
+.light-theme .btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.btn-danger {
+  background: rgba(239, 68, 68, 0.08);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.15);
+}
+
+.btn-danger:hover {
+  background: #ef4444;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+}
+
+.btn-glow-cyan {
+  background: rgba(99, 102, 241, 0.08);
+  color: var(--accent-indigo);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+}
+
+.btn-glow-cyan:hover {
+  background: var(--accent-indigo);
+  color: #ffffff;
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+  transform: translateY(-2px);
+}
+
+.text-gradient {
+  background: linear-gradient(
+    to right,
+    var(--accent-pink),
+    var(--accent-purple),
+    var(--accent-indigo),
+    var(--accent-gold),
+    var(--accent-pink)
+  );
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: flowing-gradient 6s linear infinite;
+}
+
+@keyframes flowing-gradient {
+  0% {
+    background-position: 0% center;
+  }
+  100% {
+    background-position: 300% center;
+  }
+}
+
+/* Premium Pulsing Skeleton Placeholder */
+.skeleton {
+  background: linear-gradient(90deg, rgba(15, 23, 42, 0.03) 25%, rgba(15, 23, 42, 0.08) 50%, rgba(15, 23, 42, 0.03) 75%);
+  background-size: 200% 100%;
+  animation: loading-skeleton 1.5s infinite ease-in-out;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+.light-theme .skeleton {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.03) 25%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.03) 75%);
+}
+
+@keyframes loading-skeleton {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.skeleton-text {
+  height: 14px;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.skeleton-title {
+  height: 20px;
+  width: 60%;
+  margin-bottom: 16px;
+}
+
+.skeleton-btn {
+  height: 38px;
+  width: 110px;
+}
+
+.skeleton-avatar {
+  height: 48px;
+  width: 48px;
+  border-radius: 50%;
+}
